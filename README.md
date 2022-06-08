@@ -1,5 +1,5 @@
 # SingleCellStitchit
-Learning enhancer-gene interactions from single cell data
+## Learning enhancer-gene interactions from single cell data
 
 Recently, sequencing of RNA or DNA nucleotides with single-cell resolution has become possible, allowing to capture tissue heterogeneities as well as transcriptional dynamics.
 To understand gene regulation mechanisms, it is essential to fathom out the role of enhancers, distal regulatory elements (REMs) that regulate one or several genes, in this process.
@@ -11,7 +11,7 @@ Since extremely small amounts of, for instance, mRNA molecules are present in an
 Hence, extracting biologically meaningful information from single-cell sequencing data proves difficult.
 This problem is addressed by summarizing the epigenetic and transcriptomic signal of individual cells into so-called metacells based on the similarity of their gene activity measurements.
 
-## Installation STITCHIT: https://github.com/SchulzLab/STITCHIT
+### Installation STITCHIT: https://github.com/SchulzLab/STITCHIT
 
 To build the STITCHIT cmake, a C++11 compiler, and the boost library must be available on your system.
 We have tested STITCHIT with Linux operating systems.
@@ -23,7 +23,7 @@ You can speed up the build process by using the -j option, specifying how many c
 To execute all tests use: make test
 Tests can also be executed individually. They are located in the folder build/test
 
-## Installation bam_merge-master:
+### Installation bam_merge-master:
 
 To build the STITCHIT cmake, a C++17 compiler, and the boost library must be available on your system.
 We have tested STITCHIT with Linux operating systems.
@@ -35,10 +35,10 @@ To finally build the project use: _make_
 **Requirements: deeptools 3.5.1
                 nextflow 21.04.3**
 
-## Pipeline execution:
-                nextflow main.nf -c nextlflow.config
+### Pipeline execution:
+    nextflow main.nf -c nextlflow.config
 
-## Set parameters in nextflow.config:
+### Set parameters in nextflow.config:
 
 #### MetaCellaR:
 
