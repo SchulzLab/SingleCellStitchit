@@ -151,8 +151,15 @@ s<-s[which(s != resPos)]
 c(x[s],x[resPos])
 }
 
+
+
 #Check output directory, create it if necessary
 dir.create(argsL$outDir,showWarning=FALSE)
+
+#lrumpf
+#error log file
+error_log_file <- paste0(argsL$outDir,"failed_genes.log")
+
 
 #Initilaise lists for storage of intermediate results
 FileList<-list.files(path=Data_Directory)
@@ -430,10 +437,13 @@ for(Sample in FileList){
 								#ERROR HANDLING: lrumpf
 							  elasticnet.catch <- tryCatch( A[j]<-min(elasticnet[[j]]$cvm),error=function(e) {
 							    msg <- conditionMessage(e)
+							    err.msg <- attr(elasticnet[[j]],"condition")
 							    #print(msg)
 							    #if(msg == "$ operator is invalid for atomic vectors"){
 					        #print exact error message from elastic net model
-							    print(attr(elasticnet[[j]],"condition")); 
+							    print(err.msg); 
+							    write(toString(Sample), error_log_file, append=TRUE);
+							    write(toString(err.msg), error_log_file, append=TRUE);
 							    elasticnet.fail <<-TRUE;
 							    #print(e); constant.response <<-TRUE
 							    #}
@@ -540,8 +550,10 @@ for(Sample in FileList){
 				rss_error[k]<-sum((y_test-predict_fit)^2)
 			}else{
 			  #print error message
-			  print(elasticnet[[1]]) #missing input -> why??
-			  
+			  err.msg <- elasticnet[[1]]
+			  print(err.msg) #missing input -> why??
+			  write(toString(Sample), error_log_file, append=TRUE);
+			  write(toString(err.msg), error_log_file, append=TRUE);
 				#coefficients[[i]][k]<-c()
 				#pearson_correlation[[i]][k]<-0.0
 				#spearman_correlation[[i]][k]<-0.0
@@ -994,3 +1006,4 @@ if (argsL$performance == TRUE){
 	}
 	write.table(Sample_ViewF,paste(argsL$outDir,"Performance_Overview.txt",sep=""),quote=FALSE,sep="\t",row.names=F)
 }
+
