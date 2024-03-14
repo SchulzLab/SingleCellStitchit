@@ -814,7 +814,10 @@ for(Sample in FileList){
 				  #ERROR HANDLING: lrumpf
 				  elasticnet.catch <- tryCatch( A[j]<-min(elasticnet[[j]]$cvm),error=function(e) {
 				    #msg <- conditionMessage(e)
-				    print(attr(elasticnet[[j]],"condition")); 
+				    err.msg <- attr(elasticnet[[j]],"condition");
+				    print(err.msg)
+				    write(toString(Sample), error_log_file, append=TRUE);
+				    write(toString(err.msg), error_log_file, append=TRUE);
 				    elasticnet.fail <<-TRUE;
 				  })
 				  #break inner CV evaluation
@@ -865,7 +868,10 @@ for(Sample in FileList){
 		test_error[[i]][k]<-(y_test-predict_fit)^2
 
 	}else{
-	  print(elasticnet[[1]]) #missing input -> why??
+	  err.msg <- elasticnet[[1]]
+	  print(err.msg) #missing input -> why??
+	  write(toString(Sample), error_log_file, append=TRUE);
+	  write(toString(err.msg), error_log_file, append=TRUE);
 	  validSamples[i]=FALSE
 	  break
 		#coefficients[[i]][k]<-c()
