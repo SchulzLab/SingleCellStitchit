@@ -939,10 +939,11 @@ for(Sample in FileList){
 	  elasticnet_model <- c(best_models[[min.cv.err.ind]],outerCV_partition[[i]][[min.cv.err.ind]])
 	  save(elasticnet_model, file = paste0(argsL$outDir,"Elasticnet_Regression_Model_",unlist(unlist(strsplit(Sample,".txt"))),".RData"))
 	  #######################################
-    if (length(model.coefficients) != 0){
+	  #if (length(which(medianModelCoefMatrix!=0))){
+    if (length(which(model.coefficients!=0))){
       nObs<-dim(M)[1]
-      print(nObs)
-      print(length(model.coefficients))
+      #print(nObs)
+      #print(length(model.coefficients))
       #Partition data into test and training data sets (--> OLS on complete dataset)
       #if number of features is higher than number of observations choose coefficients with highest absolute value
         if (length(model.coefficients)>=nObs){
@@ -952,7 +953,7 @@ for(Sample in FileList){
       	}else{
       		ols_Data<-M[,c(which(model.coefficients!=0),Response_Variable_location)]
       		#print(ols_Data)
-      	} 
+      } 
 	 ########################
     #OLS  
 		model<-lm(Expression~.,ols_Data)	
@@ -969,6 +970,11 @@ for(Sample in FileList){
 			cat(paste0(gsub(".","\t",row.names(model.coefs)[signif.coefs],fixed=T),"\t",model.coefs.signif[1],"\t",model.coefs.signif[2],"\n"),file=paste0(argsL$outDir,"Selected_Regions_",unlist(unlist(strsplit(Sample,".txt"))),".bed"))
 				}
 			}
+    } else {
+      err.msg <- "elastic net model contains only zero coefficients"
+      print(err.msg); 
+      write(toString(Sample), error_log_file, append=TRUE);
+      write(toString(err.msg), error_log_file, append=TRUE);
 		}
 	
 }
