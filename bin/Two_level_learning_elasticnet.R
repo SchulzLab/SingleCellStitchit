@@ -975,6 +975,7 @@ for(Sample in FileList){
       print(err.msg); 
       write(toString(Sample), error_log_file, append=TRUE);
       write(toString(err.msg), error_log_file, append=TRUE);
+      next
 		}
 	
 }
