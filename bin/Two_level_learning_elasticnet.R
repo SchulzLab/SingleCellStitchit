@@ -729,6 +729,9 @@ for(Sample in FileList){
 	}
 	}else{
 	#Leave one out cross validation
+	#lrumpf	
+	#store best model for each fold in outer CV		
+	best_models <- vector("list",vectorLength)  
 	for (k in 1:nrow(M)){                                                                                                                                                                                                                                                                                                                      
 		#print(paste("Leave one out cross validation fold: ",as.character(k),sep=" "))
 		# Partition data into test and training data sets
@@ -850,7 +853,7 @@ for(Sample in FileList){
 	  
 	  min.alpha <- alphaslist[[index]]
 	  best_models[[k]] <- list("model" = model, "alpha" = min.alpha, 
-	                           "lambda" = lambda.min, "inner_folds" = inner_fold_ids) #model$glmnet.fit 
+	                           "lambda" = model$lambda.min, "inner_folds" = inner_fold_ids) #model$glmnet.fit 
 	  
 	  #samples used for validation in outer CV-fold k for gene i 
 	  #TODO: in performance overview validation fold index for each sample 
